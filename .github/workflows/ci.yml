@@ -6,7 +6,8 @@ on:
   pull_request:
     branches: [ "master" ]
   schedule: # set the CRON jon for MIDNIGHT IST------UTC
-    - cron: "30 00 * * *"
+    - cron: "30 18 * * *"
+    - cron: "30 19 * * *"
   workflow_dispatch: 
     inputs:
       env:
