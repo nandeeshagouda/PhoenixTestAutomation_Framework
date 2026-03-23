@@ -14,24 +14,19 @@ import static org.hamcrest.Matchers.notNullValue;
 
 import org.testng.annotations.Test;
 
+import com.api.utils.SpecUtil;
+
 public class MasterAPITest {
 	
 	@Test
 	public void masterAPITest() {
 		
 		given()
-		.baseUri(getProperty("BASE_URI"))
-		 .and()
-		 .header("Authorization",getToken(FD))
-		 .and()
-		 .contentType("")
-		 .log().all()
+		 .spec(SpecUtil.RequestSpecWithAuth(FD))
 		 .when()
 		 .post("master")//default content-type application/url-formencoded  
 		 .then()
-		 .log().all()
-		 .statusCode(200)
-		 .time(lessThan(1000L))
+		 .spec(SpecUtil.responseSpec_Ok())
 		 .body("message",equalTo("Success"))
 		 .body("data", notNullValue())
 		 .body("data", hasKey("mst_oem"))
@@ -53,17 +48,11 @@ public class MasterAPITest {
 	public void invalidTokenMasterAPITest() {
 		
 		given()
-		.baseUri(getProperty("BASE_URI"))
-		 .and()
-		 .header("Authorization","")
-		 .and()
-		 .contentType("")
-		 .log().all()
+		 .spec(SpecUtil.requestSpec())
 		 .when()
 		 .post("master")//default content-type application/url-formencoded  
 		 .then()
-		 .log().all()
-		 .statusCode(401);
+		 .spec(SpecUtil.responseSpec_TEXT(401));
 		
 		
 		
