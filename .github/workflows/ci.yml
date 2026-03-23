@@ -8,6 +8,7 @@ on:
   schedule: # set the CRON jon for MIDNIGHT IST------UTC
     - cron: "30 18 * * *"
     - cron: "30 19 * * *"
+    - cron: "30 20 * * *"
   workflow_dispatch: 
     inputs:
       env:
