@@ -4,6 +4,8 @@ import static io.restassured.RestAssured.given;
 
 import static org.hamcrest.Matchers.*;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import com.api.request.model.Customer;
 import com.api.request.model.CustomerAddress;
 import com.api.request.model.CustomerProduct;
 import com.api.request.model.Problems;
+import static com.api.utils.DateTimeUtils.*;
 import com.api.utils.SpecUtil;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.*;
@@ -29,9 +32,11 @@ public class CreateJobAPITest {
 		
 		//Creating the CreatePayload object 
 		
+		System.out.println(Instant.now().minus(10, ChronoUnit.DAYS));
+		
 		Customer customer=new Customer("nandish", "lk", "8217406456", "", "nandishlk@gmail.com", "");
 		CustomerAddress customerAddress=new CustomerAddress("D 404", "Maruti nilaya", "Btm alayout", "near bus stop", "bangalore", "560076", "India", "Karnataka");
-		CustomerProduct customerProduct=new CustomerProduct("2026-03-01T18:30:00.000", "19174230583716", "19174230583716", "19174230583716", "2026-03-01T18:30:00.000", 1, 1);
+		CustomerProduct customerProduct=new CustomerProduct(getTimeWithDaysAgo(10), "19173230583716", "19173230583716", "19173230583716", getTimeWithDaysAgo(10), 1, 1);
 		Problems problems=new Problems(1, "Battary issue");
 		List<Problems> problemsList=new ArrayList<Problems>();
 		problemsList.add(problems);
