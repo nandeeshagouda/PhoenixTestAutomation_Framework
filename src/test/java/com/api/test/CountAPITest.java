@@ -1,27 +1,31 @@
 package com.api.test;
 
+import static com.api.constant.Role.FD;
+import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
+import static org.hamcrest.Matchers.blankOrNullString;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+
 import org.testng.annotations.Test;
 
-import com.api.utils.SpecUtil;
-
-import static org.hamcrest.Matchers.*;
-import static com.api.constant.Role.*;
-import static com.api.utils.AuthTokenPravider.*;
-import static com.api.utils.ConfigManager.*;
-import static io.restassured.module.jsv.JsonSchemaValidator.*;
-import static io.restassured.RestAssured.*;
+import static com.api.utils.SpecUtil.*;
 
 public class CountAPITest {
 	
-	@Test
+	@Test(description = "Verify if the count api is giving correct response",groups = {"api","smoke","regresion"})
 	public void verifyCountAPIResponse() {
 		
 		given()
-			.spec(SpecUtil.RequestSpecWithAuth(FD))
+			.spec(RequestSpecWithAuth(FD))
 			.when()
 			.get("dashboard/count")
 			.then()
-			.spec(SpecUtil.responseSpec_Ok())
+			.spec(responseSpec_Ok())
 			.body("message", equalTo("Success"))
 			.body("data",notNullValue())
 			.body("data.size()", equalTo(3))
@@ -33,15 +37,15 @@ public class CountAPITest {
 	}
 	
 	
-	@Test
+	@Test(description = "Verify if the count api is giving correct status code for invaild token",groups = {"api","negative","smoke","regresion"})
 	public void countAPITest_MissingAuthToken() {
 		
 		 given()
-		.spec(SpecUtil.requestSpec())
+		.spec(requestSpec())
 		.when()
 		.get("dashboard/count")
 		.then()
-		.spec(SpecUtil.responseSpec_TEXT(401));
+		.spec(responseSpec_TEXT(401));
 		
 	}
 	
