@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.lessThan;
 
 import org.testng.annotations.Test;
 
-import com.api.pojo.UserCredentials;
+import com.api.request.model.UserCredentials;
 import com.api.utils.SpecUtil;
  
 public class LoginAPITest {
