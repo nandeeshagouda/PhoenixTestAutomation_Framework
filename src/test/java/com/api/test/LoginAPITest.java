@@ -3,30 +3,32 @@ package com.api.test;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.lessThan;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.api.pojo.UserCredentials;
-import com.api.utils.SpecUtil;
+import com.api.request.model.UserCredentials;
+import static com.api.utils.SpecUtil.*;
  
 public class LoginAPITest {
 		
-	@Test 
+	private UserCredentials userCredential;
+	
+	@BeforeMethod(description ="Create the payload for the login API")
+	public void setUp() {
+		userCredential=new UserCredentials("iamfd", "password");
+	}
+
+	@Test (description = "Verifying if login api is working for FD user",groups= {"api","smoke","regresion"})
 	public void LoginAPITest() {
 		//Rest Assured code!
 		
-		
-		UserCredentials userCredential=new UserCredentials("iamfd", "password");
-		
-		 
-		
 		given()
-			.spec(SpecUtil.requestSpec(userCredential))
+			.spec(requestSpec(userCredential))
 			.when()
 			.post("login")
 			.then()
-			.spec(SpecUtil.responseSpec_Ok())
+			.spec(responseSpec_Ok())
 			.body("message", equalTo("Success"))
 			.and()
 			.body(matchesJsonSchemaInClasspath("response-schema/LoginResponseSchema.json"));
