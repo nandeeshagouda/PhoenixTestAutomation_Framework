@@ -2,9 +2,10 @@ package com.api.utils;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Iterator;
 import java.util.List;
 
-import com.dataproviders.api.bean.UserBeam;
+import com.dataproviders.api.bean.UserBean;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -26,17 +27,17 @@ public class CSVReaderUtil {
 		// Singleton class Constructor are private
 	}
 
-	public static void loadCSv(String pathOfCSVFile) {
+	public static Iterator<UserBean> loadCSv(String pathOfCSVFile) {
 
 		InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(pathOfCSVFile);
 		InputStreamReader isr = new InputStreamReader(is);
 		CSVReader csvReader = new CSVReader(isr);// CSVReader constructor
 
-		CsvToBean<UserBeam> csvToBean = new CsvToBeanBuilder(csvReader).withType(UserBeam.class)
+		CsvToBean<UserBean> csvToBean = new CsvToBeanBuilder(csvReader).withType(UserBean.class)
 				.withIgnoreEmptyLine(true).build();
 
-		List<UserBeam> userList = csvToBean.parse();
-		System.err.println(userList);
+		List<UserBean> userList = csvToBean.parse();
+		return userList.iterator();
 
 	}
 

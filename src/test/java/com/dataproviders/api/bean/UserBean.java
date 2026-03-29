@@ -2,14 +2,14 @@ package com.dataproviders.api.bean;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class UserBeam {
+public class UserBean {
 	
 	@CsvBindByName(column="username")
 	private String username;
 	@CsvBindByName(column="password")
 	private String password;
 	
-	public UserBeam() {
+	public UserBean() {
 		
 	}
 	   

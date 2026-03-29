@@ -1,4 +1,4 @@
-package com.api.test;
+package com.api.tests.datadriven;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -8,23 +8,26 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.api.request.model.UserCredentials;
+import com.dataproviders.api.bean.UserBean;
+
 import static com.api.utils.SpecUtil.*;
  
-public class LoginAPITest {
+public class LoginAPIDataDrivenTest {
 		
 	private UserCredentials userCredential;
 	
-	@BeforeMethod(description ="Create the payload for the login API")
-	public void setUp() {
-		userCredential=new UserCredentials("iamfd", "password");
-	}
+	 
 
-	@Test (description = "Verifying if login api is working for FD user",groups= {"api","smoke","regresion"})
-	public void LoginAPITest() {
+	@Test (description = "Verifying if login api is working for FD user",
+			groups= {"api","datadriven","regresion"},
+			dataProviderClass = com.dataproviders.DataProviderUtils.class,
+			dataProvider = "LoginAPIDataProvider"
+			 )
+	public void LoginAPITest(UserBean userBean) {
 		//Rest Assured code!
 		
 		given()
-			.spec(requestSpec(userCredential))
+			.spec(requestSpec(userBean))
 			.when()
 			.post("login")
 			.then()
